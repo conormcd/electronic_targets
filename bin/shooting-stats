@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+libdir = File.expand_path("../lib", File.dirname(__FILE__))
+$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
+require "shooting_stats"
+
+ShootingStats::Runner.new(
+    %w[list],
+    File.expand_path(
+        "../spec/fixtures/data_source/megalink/mlq/Card007.mlq",
+        File.dirname(__FILE__)
+    )
+).run!
