@@ -29,7 +29,13 @@ module ShootingStats
       def params
         if @params.empty?
           db.fetch("SELECT * FROM Param") do |param|
-            @params[param[:Id].to_sym] = param[:Data]
+            key = param[:Id].to_sym
+            value = param[:Data]
+
+            value = value.to_i if value =~ /^-?\d+$/
+            value = value.to_f if value =~ /^-?\d+\.\d+$/
+
+            @params[key] = value
           end
         end
         @params
@@ -46,7 +52,7 @@ module ShootingStats
               shot.card = Model::Card.new do |c|
                 c.name = params[:CardName]
               end
-              shot.target = target(params[:TargetID])
+              shot.target = target
               if first_time > 0
                 shot.time = (db_shot[:TimeStamp] - first_time) / 100.0
               else
@@ -59,13 +65,14 @@ module ShootingStats
         @shots
       end
 
-      def target(target_id)
+      def target
+        target_id = params[:TargetID]
         valid_targets = {
-          '4' => Model::Target::ISSF50mRifle.instance,
-          '21' => Model::Target::ISSF10mRifle.instance,
+          4 => Model::Target::ISSF50mRifle.instance,
+          21 => Model::Target::ISSF10mRifle.instance,
         }
-        if valid_targets.has_key? target_id.to_s
-          valid_targets[target_id.to_s]
+        if valid_targets.has_key? target_id
+          valid_targets[target_id]
         else
           raise "Unknown target type: #{target_id}"
         end
