@@ -49,4 +49,5 @@ module ShootingStats
   end
 end
 
+require 'shooting_stats/model/target/issf_10m_rifle'
 require 'shooting_stats/model/target/issf_50m_rifle'
