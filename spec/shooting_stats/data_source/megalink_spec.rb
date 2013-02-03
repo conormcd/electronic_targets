@@ -32,16 +32,64 @@ describe ShootingStats::DataSource::Megalink do
     end
   end
 
+  describe '#db' do
+    describe 'with a valid MLQ' do
+      before do
+        @megalink = new_megalink(fixtures.mlq.first[1])
+      end
+
+      it 'should return a Sequel::SQLite::Database object' do
+        @megalink.db.should be_a_kind_of(Sequel::SQLite::Database)
+      end
+
+      it 'should cache creation of the Sequel object' do
+        @megalink.db.object_id.should == @megalink.db.object_id
+      end
+    end
+
+    describe 'with no MLQ' do
+      it "should raise an exception" do
+        expect { @megalink.shots }.to raise_error
+      end
+    end
+
+    describe 'with a path to a nonexistant MLQ' do
+      before do
+        @megalink = new_megalink("/does/not/exist")
+      end
+
+      it "should raise an exception" do
+        expect { @megalink.shots }.to raise_error
+      end
+    end
+  end
+
+  describe '#params' do
+    fixtures.mlq.each_pair do |name, path|
+      describe "after loading #{name}" do
+        before do
+          @megalink = new_megalink(path)
+        end
+
+        it 'should return a Hash' do
+          @megalink.params.should be_a_kind_of(Hash)
+        end
+
+        it 'should cache the creation of the Hash' do
+          @megalink.params.object_id.should == @megalink.params.object_id
+        end
+
+        [:DistanceActual, :DistanceSimulated, :TargetID].each do |param|
+          it "should contain a value for #{param}" do
+            @megalink.params.should include(param)
+            @megalink.params[param].should be_a_kind_of(Fixnum)
+          end
+        end
+      end
+    end
+  end
+
   describe "#shots" do
-    it "should fail if no path was given in #initialize" do
-      expect { @megalink.shots }.to raise_error
-    end
-
-    it "should fail if the path give in #initialize does not point to a file" do
-      @megalink = new_megalink("/does/not/exist")
-      expect { @megalink.shots }.to raise_error
-    end
-
     fixtures.mlq.each_pair do |name, path|
       describe "after loading #{name}" do
         before do
@@ -71,6 +119,44 @@ describe ShootingStats::DataSource::Megalink do
             shot.score.should be >= 0
             shot.score.should be <= 10.9
           end
+        end
+      end
+    end
+  end
+
+  describe '#target' do
+    fixtures.mlq.each_pair do |name, path|
+      describe "after loading #{name}" do
+        before do
+          @megalink = new_megalink(path)
+        end
+
+        it 'should return an instance of ShootingStats::Model::Target' do
+          @megalink.target.should be_a_kind_of(
+            ShootingStats::Model::Target::Base
+          )
+        end
+      end
+    end
+
+    describe 'with an MLQ containing an unknown target' do
+      it 'should raise an exception' do
+        @megalink.stub(:params).and_return({:TargetID => 666})
+        expect { @megalink.target }.to raise_error
+      end
+    end
+  end
+
+  describe '#scaling_factor' do
+    fixtures.mlq.each_pair do |name, path|
+      describe "after loading #{name}" do
+        before do
+          @megalink = new_megalink(path)
+        end
+
+        it 'should be a Float >= 1.0' do
+          @megalink.scaling_factor.should be_a_kind_of(Float)
+          @megalink.scaling_factor.should be >= 1.0
         end
       end
     end
