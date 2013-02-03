@@ -6,7 +6,6 @@ module ShootingStats
         def initialize
           super
           @max_score = 10.9
-          @diameter = 160
           @ring_size = 8
           @decimal_places = 1
           @inward_gauging = true
