@@ -15,6 +15,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'sequel', '~> 3.43'
   gem.add_dependency 'sqlite3', '~> 1.3'
+  gem.add_dependency 'statsample', '~> 1.2'
 
   gem.add_development_dependency 'cane'
   gem.add_development_dependency 'rake'
