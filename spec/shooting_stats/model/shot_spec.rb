@@ -74,4 +74,32 @@ describe ShootingStats::Model::Shot do
       @shot.score.should be_a_kind_of(Float)
     end
   end
+
+  describe "#time" do
+    context 'when given a format' do
+      it 'returns the time formatted according to the given format string' do
+        @shot.time('%Y-%m-%d %H:%M:%S').should == "1970-01-01 00:00:00"
+      end
+    end
+
+    context 'when given no format' do
+      it 'returns the time as a UNIX epoch time' do
+        @shot.time.should be_a_kind_of(Fixnum)
+      end
+    end
+  end
+
+  describe "#to_f" do
+    it "returns a positive float" do
+      @shot.to_f.should be >= 0
+      @shot.to_f.should be_a_kind_of(Float)
+    end
+  end
+
+  describe "#to_i" do
+    it "returns a positive integer" do
+      @shot.to_i.should be >= 0
+      @shot.to_i.should be_a_kind_of(Fixnum)
+    end
+  end
 end

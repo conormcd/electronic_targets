@@ -40,6 +40,14 @@ module ShootingStats
         target.score(horizontal_error, vertical_error)
       end
 
+      def to_i
+        score.to_i
+      end
+
+      def to_f
+        score.to_f
+      end
+
       def time(format=nil)
         if format
           Time.at(@time).gmtime.strftime(format)
