@@ -96,4 +96,52 @@ describe ShootingStats::Model::Target do
       end
     end
   end
+
+  describe ShootingStats::Model::Target::ISSF10mRifle do
+    before do
+      @target = ShootingStats::Model::Target::ISSF10mRifle.instance
+    end
+
+    describe '#score' do
+      it "should score 0, 0 as a 10.9" do
+        @target.score(0, 0).should == 10.9
+      end
+
+      it "should score 0.59, 0.30 as a 10.7" do
+        @target.score(0.59, 0.30).should == 10.7
+      end
+
+      it "should score 0.68, 0.11 as a 10.7" do
+        @target.score(0.68, 0.11).should == 10.7
+      end
+
+      it "should score 0.35, 2.47 as a 10.0" do
+        @target.score(0.35, 2.47).should == 10.0
+      end
+
+      it "should score -0.82, 2.48 as a 9.9" do
+        @target.score(-0.82, 2.48).should == 9.9
+      end
+
+      it 'should score -0.915, 0.915 as a 10.4' do
+        @target.score(-0.915, 0.915).should == 10.4
+      end
+
+      it 'should score -1.72, 1.72 as a 10.0' do
+        @target.score(-1.72, 1.72).should == 10.0
+      end
+
+      it 'should score -0.5, 0.5 as a 10.7' do
+        @target.score(-0.5, 0.5).should == 10.7
+      end
+
+      it 'should score -0.85, 0.85 as a 10.4' do
+        @target.score(-0.85, 0.85).should == 10.5
+      end
+
+      it 'should score -1.41, 1.41 as a 10.4' do
+        @target.score(-1.41, 1.41).should == 10.2
+      end
+    end
+  end
 end
