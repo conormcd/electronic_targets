@@ -12,12 +12,12 @@ module ShootingStats
     attr_accessor :report_names
 
     def initialize(args=nil)
+      @args = args
       @report_names = []
-
-      configure_from(args) if args
     end
 
-    def configure_from!(args)
+    def configure!
+      args = @args.dup
       option_parser = OptionParser.new do |opts|
         opts.banner += ' input_file report_name [report_name...]'
         opts.on('-t', '--type=TYPE', 'The type of the input file') do |t|
@@ -38,6 +38,8 @@ module ShootingStats
     end
 
     def run!
+      configure!
+
       source = DataSource.from_file(input_file, input_file_type)
       report_names.each do |report_name|
         report = Report.from_name(report_name)
