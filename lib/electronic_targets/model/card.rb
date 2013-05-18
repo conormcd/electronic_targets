@@ -1,4 +1,4 @@
-module ShootingStats
+module ElectronicTargets
   module Model
     # Model a "card" or specified string of shots.
     class Card

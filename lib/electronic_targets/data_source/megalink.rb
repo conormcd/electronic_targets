@@ -1,29 +1,28 @@
 require "sequel"
 require "sqlite3"
 
-require "shooting_stats/model/card"
-require "shooting_stats/model/shot"
-require "shooting_stats/model/target"
-
-module ShootingStats
+module ElectronicTargets
   module DataSource
     # Read data from Megalink MLQ files.
     class Megalink
+      TARGET_TYPES = {
+        4 => Model::Target::ISSF50mRifle.instance,
+        21 => Model::Target::ISSF10mRifle.instance,
+      }
+
       attr_accessor :path
 
-      def initialize(path=nil)
+      def initialize(path)
         @path = path
         @params = {}
         @shots = []
+
+        raise ArgumentError, "No path to MLQ provided" if @path.nil?
+        raise ArgumentError, "#{@path} not found" unless File.exists? @path
       end
 
       def db
-        if @db.nil?
-          raise "No path to .mlq file provided" if path.nil?
-          raise "#{path} does not exist" unless File.exists? path
-          @db = Sequel.connect("sqlite://#{path}")
-        end
-        @db
+        @db ||= Sequel.connect("sqlite://#{path}")
       end
 
       def params
@@ -67,14 +66,10 @@ module ShootingStats
 
       def target
         target_id = params[:TargetID]
-        valid_targets = {
-          4 => Model::Target::ISSF50mRifle.instance,
-          21 => Model::Target::ISSF10mRifle.instance,
-        }
-        if valid_targets.has_key? target_id
-          valid_targets[target_id]
+        if TARGET_TYPES.has_key? target_id
+          TARGET_TYPES[target_id]
         else
-          raise "Unknown target type: #{target_id}"
+          raise ArgumentError, "Unknown target type: #{target_id}"
         end
       end
 

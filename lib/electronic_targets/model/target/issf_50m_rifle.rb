@@ -1,4 +1,4 @@
-module ShootingStats
+module ElectronicTargets
   module Model
     module Target
       # An ISSF 50 meter rifle target

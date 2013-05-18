@@ -2,6 +2,14 @@ require 'csv'
 
 module SpecHelper
   module Fixtures
+    def megalink_fixtures
+      @@megalink_fixtures ||= SpecHelper::Fixtures::DataSource::Megalink.new
+    end
+  end
+end
+
+module SpecHelper
+  module Fixtures
     module DataSource
       class Megalink
         def initialize

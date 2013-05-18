@@ -1,4 +1,4 @@
-module ShootingStats
+module ElectronicTargets
   module Model
     # Model a single shot
     class Shot
@@ -20,19 +20,19 @@ module ShootingStats
 
         # Validate
         if @horizontal_error.nil?
-          raise InvalidDataException, "No horizontal error provided"
+          raise ArgumentError, "No horizontal error provided"
         end
         if @vertical_error.nil?
-          raise InvalidDataException, "No vertical error provided"
+          raise ArgumentError, "No vertical error provided"
         end
         if @time.nil?
-          raise InvalidDataException, "No shot time provided"
+          raise ArgumentError, "No shot time provided"
         end
         if @time < 0
-          raise InvalidDataException, "Negative time provided"
+          raise ArgumentError, "Negative time provided"
         end
         if @target.nil?
-          raise InvalidDataException, "No target provided"
+          raise ArgumentError, "No target provided"
         end
       end
 

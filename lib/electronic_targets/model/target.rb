@@ -1,6 +1,6 @@
 require 'singleton'
 
-module ShootingStats
+module ElectronicTargets
   module Model
     module Target
       # A base target type for all targets to inherit from
@@ -49,5 +49,5 @@ module ShootingStats
   end
 end
 
-require 'shooting_stats/model/target/issf_10m_rifle'
-require 'shooting_stats/model/target/issf_50m_rifle'
+require 'electronic_targets/model/target/issf_10m_rifle'
+require 'electronic_targets/model/target/issf_50m_rifle'
