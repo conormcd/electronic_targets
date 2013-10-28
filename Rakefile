@@ -12,9 +12,9 @@ end
 desc 'Run cane to check quality metrics'
 Cane::RakeTask.new(:hygiene) do |cane|
   cane.abc_max = 15
-  cane.abc_glob = "**/*.rb"
+  cane.abc_glob = "{lib,spec}/*.rb"
   cane.style_measure = 80
-  cane.style_glob = "**/*.rb"
+  cane.style_glob = "{lib,spec}/*.rb"
 end
 
 task :default => [:hygiene, :spec]
