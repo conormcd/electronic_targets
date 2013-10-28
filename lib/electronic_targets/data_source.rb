@@ -1,13 +1,15 @@
 require 'electronic_targets/data_source/base'
 require 'electronic_targets/data_source/file_backed'
 require 'electronic_targets/data_source/megalink'
+require 'electronic_targets/data_source/scatt'
 
 module ElectronicTargets
   # Data sources are the representations of the various file formats this
   # library understands.
   module DataSource
     FILE_TYPES = {
-      'mlq' => ElectronicTargets::DataSource::Megalink
+      'mlq' => ElectronicTargets::DataSource::Megalink,
+      'scatt' => ElectronicTargets::DataSource::SCATT,
     }
 
     def self.from_file(file, type=nil)

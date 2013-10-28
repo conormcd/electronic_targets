@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.summary     = gem.description
   gem.license     = "BSD"
 
+  gem.add_dependency 'ruby-ole'
   gem.add_dependency 'sequel', '~> 3.43'
   gem.add_dependency 'sqlite3', '~> 1.3'
 
