@@ -63,7 +63,7 @@ describe ElectronicTargets::DataSource::Megalink do
     it "only returns valid shots" do
       expect {
         megalink.shots
-      }.to_not raise_error ArgumentError
+      }.to_not raise_error
     end
 
     it "returns shots with a monotonically increasing time value" do

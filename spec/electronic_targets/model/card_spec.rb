@@ -8,7 +8,7 @@ describe ElectronicTargets::Model::Card do
         card = ElectronicTargets::Model::Card.new do |c|
           c.name = "Card Name"
         end
-      }.to_not raise_error ArgumentError
+      }.to_not raise_error
       card.should_not be_nil
       card.name.should == "Card Name"
     end

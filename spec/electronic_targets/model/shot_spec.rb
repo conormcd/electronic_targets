@@ -27,7 +27,7 @@ describe ElectronicTargets::Model::Shot do
 
     context 'when good shot data is provided' do
       it 'does not raise an ArgumentError' do
-        expect { shot }.to_not raise_error ArgumentError
+        expect { shot }.to_not raise_error
       end
     end
 
