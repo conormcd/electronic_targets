@@ -1,5 +1,6 @@
 require "sequel"
 require "sqlite3"
+require "uri"
 
 module ElectronicTargets
   module DataSource
@@ -22,7 +23,7 @@ module ElectronicTargets
       end
 
       def db
-        @db ||= Sequel.connect("sqlite://#{path}")
+        @db ||= Sequel.connect("sqlite://#{URI.encode(path)}")
       end
 
       def params
