@@ -67,12 +67,6 @@ describe ElectronicTargets::Model::Shot do
         let(:shot_data) { good_shot_data.reject{|k, v| k == :series} }
       end
     end
-
-    context 'when a bad series number is provided' do
-      it_behaves_like 'an invalid initialize' do
-        let(:shot_data) { good_shot_data.merge({:series => 100}) }
-      end
-    end
   end
 
   describe "#sighter?" do

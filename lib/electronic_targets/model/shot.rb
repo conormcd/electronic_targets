@@ -37,9 +37,6 @@ module ElectronicTargets
         if @target.nil?
           raise ArgumentError, "No target provided"
         end
-        unless [1,2].include? @series
-          raise ArgumentError, "Unknown series number: #{@series}"
-        end
       end
 
       def sighter?
