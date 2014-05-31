@@ -1,3 +1,5 @@
+require 'electronic_targets/data_source/base'
+require 'electronic_targets/data_source/file_backed'
 require 'electronic_targets/data_source/megalink'
 
 module ElectronicTargets
