@@ -48,6 +48,10 @@ module ElectronicTargets
         end
       end
 
+      def distance
+        params[:DistanceActual]
+      end
+
       def convert(value)
         (([value].pack("N").unpack("g")).shift * scaling_factor).round(2)
       end

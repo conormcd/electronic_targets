@@ -7,6 +7,12 @@ module ElectronicTargets
       class Base
         include Singleton
 
+        attr_reader :calibre
+
+        def initialize
+          @calibre = 0
+        end
+
         def score(x, y)
           raise NotImplementedError, "You may not use #{self.class} directly."
         end

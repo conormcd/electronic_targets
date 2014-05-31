@@ -5,6 +5,7 @@ module ElectronicTargets
       class ISSF10mRifle < RingTarget
         def initialize
           super
+          @calibre = 4.5
           @decimal_places = 1
           @inward_gauging = true
           @max_score = 10.9
