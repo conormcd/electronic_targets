@@ -2,7 +2,6 @@ module ElectronicTargets
   module Model
     # Model a single shot
     class Shot
-      attr_accessor :card
       attr_accessor :horizontal_error
       attr_accessor :target
       attr_accessor :vertical_error
@@ -11,7 +10,6 @@ module ElectronicTargets
 
       def initialize
         # Default
-        @card = nil
         @horizontal_error = nil
         @target = nil
         @time = nil

@@ -50,9 +50,6 @@ module ElectronicTargets
               shot.series = db_shot[:Series]
               shot.horizontal_error = convert(db_shot[:X])
               shot.vertical_error = convert(db_shot[:Y])
-              shot.card = Model::Card.new do |c|
-                c.name = params[:CardName]
-              end
               shot.target = target
               if first_time > 0
                 shot.time = (db_shot[:TimeStamp] - first_time) / 100.0
