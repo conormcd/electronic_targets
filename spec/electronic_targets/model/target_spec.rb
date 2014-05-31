@@ -7,6 +7,7 @@ describe ElectronicTargets::Model::Target do
       shot.horizontal_error = 0
       shot.vertical_error = 0
       shot.target = target
+      shot.series = 2
     end
   }
 

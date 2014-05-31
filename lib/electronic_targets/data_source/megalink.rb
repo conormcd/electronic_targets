@@ -47,6 +47,7 @@ module ElectronicTargets
 
           db.fetch("SELECT * FROM Shots") do |db_shot|
             @shots << Model::Shot.new do |shot|
+              shot.series = db_shot[:Series]
               shot.horizontal_error = convert(db_shot[:X])
               shot.vertical_error = convert(db_shot[:Y])
               shot.card = Model::Card.new do |c|

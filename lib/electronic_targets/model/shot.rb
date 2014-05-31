@@ -6,6 +6,7 @@ module ElectronicTargets
       attr_accessor :horizontal_error
       attr_accessor :target
       attr_accessor :vertical_error
+      attr_accessor :series
       attr_writer :time
 
       def initialize
@@ -15,6 +16,7 @@ module ElectronicTargets
         @target = nil
         @time = nil
         @vertical_error = nil
+        @series = nil
 
         yield self if block_given?
 
@@ -28,12 +30,22 @@ module ElectronicTargets
         if @time.nil?
           raise ArgumentError, "No shot time provided"
         end
+        if @series.nil?
+          raise ArgumentError, "No series number provided"
+        end
         if @time < 0
           raise ArgumentError, "Negative time provided"
         end
         if @target.nil?
           raise ArgumentError, "No target provided"
         end
+        unless [1,2].include? @series
+          raise ArgumentError, "Unknown series number: #{@series}"
+        end
+      end
+
+      def sighter?
+        @series == 1
       end
 
       def score
