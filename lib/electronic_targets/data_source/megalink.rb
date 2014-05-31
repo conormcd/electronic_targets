@@ -31,6 +31,10 @@ module ElectronicTargets
             shot.target = target
             if first_time > 0
               shot.time = (db_shot[:TimeStamp] - first_time) / 100.0
+              if shot.time < 0
+                shot.time = 0
+                first_time = db_shot[:TimeStamp]
+              end
             else
               shot.time = 0
               first_time = db_shot[:TimeStamp]
