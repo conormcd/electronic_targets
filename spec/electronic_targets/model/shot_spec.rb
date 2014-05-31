@@ -61,9 +61,37 @@ describe ElectronicTargets::Model::Shot do
         let(:shot_data) { good_shot_data.reject{|k, v| k == :target} }
       end
     end
+
+    context 'when no series number is provided' do
+      it_behaves_like 'an invalid initialize' do
+        let(:shot_data) { good_shot_data.reject{|k, v| k == :series} }
+      end
+    end
+
+    context 'when a bad series number is provided' do
+      it_behaves_like 'an invalid initialize' do
+        let(:shot_data) { good_shot_data.merge({:series => 100}) }
+      end
+    end
   end
 
-  describe "#shot" do
+  describe "#sighter?" do
+    context "when the shot is a sighting shot" do
+      let(:shot_data) { good_shot_data.merge({:series => 1}) }
+
+      it 'should be true' do
+        shot.should be_sighter
+      end
+    end
+
+    context "when the shot is a match shot" do
+      it 'should not be true' do
+        shot.should_not be_sighter
+      end
+    end
+  end
+
+  describe "#score" do
     it "should be a positive float" do
       shot.score.should be >= 0
       shot.score.should be_a_kind_of(Float)
