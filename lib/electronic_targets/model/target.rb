@@ -10,10 +10,6 @@ module ElectronicTargets
         def score(x, y)
           raise NotImplementedError, "You may not use #{self.class} directly."
         end
-
-        def radius(x, y)
-          Math.sqrt((x * x) + (y * y))
-        end
       end
 
       # A base target type for all ring type targets to inherit from
@@ -32,10 +28,10 @@ module ElectronicTargets
           @ring_size = 0
         end
 
-        def score(x, y)
+        def score(shot)
           score_increment = 1.0 / (10 ** decimal_places)
 
-          deduction = (radius(x, y) / (ring_size * score_increment))
+          deduction = (shot.error / (ring_size * score_increment))
           deduction = inward_gauging? ? deduction.ceil : deduction.floor
           deduction *= score_increment
 

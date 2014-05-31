@@ -37,7 +37,11 @@ module ElectronicTargets
       end
 
       def score
-        target.score(horizontal_error, vertical_error)
+        target.score(self)
+      end
+
+      def error
+        Math.sqrt((horizontal_error ** 2) + (vertical_error ** 2))
       end
 
       def to_i

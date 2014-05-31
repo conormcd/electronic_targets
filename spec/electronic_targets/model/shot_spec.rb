@@ -14,7 +14,8 @@ describe ElectronicTargets::Model::Shot do
       :horizontal_error => 0,
       :vertical_error => 0,
       :time => 0,
-      :target => ElectronicTargets::Model::Target::ISSF50mRifle.instance
+      :target => ElectronicTargets::Model::Target::ISSF50mRifle.instance,
+      :series => 2
     }
   }
 
