@@ -13,12 +13,12 @@ describe ElectronicTargets::DataSource::Base do
     }
 
     it 'returns some shots' do
-      data_source.sighting_shots.count.should be > 0
+      expect(data_source.sighting_shots).not_to be_empty
     end
 
     it 'returns only sighting shots' do
       data_source.sighting_shots.each do |shot|
-        shot.should be_sighter
+        expect(shot).to be_sighter
       end
     end
   end
@@ -29,12 +29,12 @@ describe ElectronicTargets::DataSource::Base do
     }
 
     it 'returns some shots' do
-      data_source.match_shots.count.should be > 0
+      expect(data_source.match_shots).not_to be_empty
     end
 
     it 'does not return sighting shots' do
       data_source.match_shots.each do |shot|
-        shot.should_not be_sighter
+        expect(shot).not_to be_sighter
       end
     end
   end

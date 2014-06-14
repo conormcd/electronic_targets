@@ -10,7 +10,7 @@ describe ElectronicTargets::DataSource do
       end
 
       it 'returns a data source' do
-        data_source.should respond_to :shots
+        expect(data_source).to respond_to :shots
       end
     end
 

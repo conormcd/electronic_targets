@@ -26,26 +26,26 @@ describe ElectronicTargets::Model::Target do
 
     describe '#score' do
       it 'should be able to calculate non-decimal scores' do
-        target.stub(:max_score).and_return(10)
-        target.stub(:ring_size).and_return(8)
-        target.score(shot).should == 10
+        allow(target).to receive(:max_score).and_return(10)
+        allow(target).to receive(:ring_size).and_return(8)
+        expect(target.score(shot)).to eq(10)
       end
 
       it 'should be able to calculate scores to multiple decimal places' do
-        shot.stub(:horizontal_error).and_return(4.30)
-        shot.stub(:vertical_error).and_return(2.01)
-        target.stub(:decimal_places).and_return(2)
-        target.stub(:max_score).and_return(10.9)
-        target.stub(:ring_size).and_return(8)
+        allow(shot).to receive(:horizontal_error).and_return(4.30)
+        allow(shot).to receive(:vertical_error).and_return(2.01)
+        allow(target).to receive(:decimal_places).and_return(2)
+        allow(target).to receive(:max_score).and_return(10.9)
+        allow(target).to receive(:ring_size).and_return(8)
 
-        target.score(shot).should == 10.31
+        expect(target.score(shot)).to eq(10.31)
       end
 
       describe 'when outward gauging like an NSRA 25yd target' do
         before do
-          target.stub(:decimal_places).and_return(0)
-          target.stub(:max_score).and_return(10)
-          target.stub(:ring_size).and_return(3.66)
+          allow(target).to receive(:decimal_places).and_return(0)
+          allow(target).to receive(:max_score).and_return(10)
+          allow(target).to receive(:ring_size).and_return(3.66)
         end
 
         {
@@ -55,9 +55,9 @@ describe ElectronicTargets::Model::Target do
           [7.4, 0] => 8,
         }.each_pair do |args, score|
           it "should score #{args.join(", ")} as a #{score}" do
-            shot.stub(:horizontal_error).and_return(args[0])
-            shot.stub(:vertical_error).and_return(args[1])
-            target.score(shot).should == score
+            allow(shot).to receive(:horizontal_error).and_return(args[0])
+            allow(shot).to receive(:vertical_error).and_return(args[1])
+            expect(target.score(shot)).to eq(score)
           end
         end
       end
@@ -69,22 +69,22 @@ describe ElectronicTargets::Model::Target do
 
     describe '#score' do
       it "should score 0, 0 as a 10.9" do
-        target.score(shot).should == 10.9
+        expect(target.score(shot)).to eq(10.9)
       end
 
       it "should score 165, 165 as a 0" do
-        shot.stub(:horizontal_error).and_return(165)
-        shot.stub(:vertical_error).and_return(165)
-        target.score(shot).should == 0
+        allow(shot).to receive(:horizontal_error).and_return(165)
+        allow(shot).to receive(:vertical_error).and_return(165)
+        expect(target.score(shot)).to eq(0)
       end
 
       it "should agree with all the scores in the Megalink precomputed set" do
         megalink_fixtures.precomputed.each do |_, data|
           data.each do |precomp_shot|
-            shot.stub(:horizontal_error).and_return(precomp_shot[:Horizontal])
-            shot.stub(:vertical_error).and_return(precomp_shot[:Vertical])
+            allow(shot).to receive(:horizontal_error).and_return(precomp_shot[:Horizontal])
+            allow(shot).to receive(:vertical_error).and_return(precomp_shot[:Vertical])
 
-            target.score(shot).should == precomp_shot[:Score]
+            expect(target.score(shot)).to eq(precomp_shot[:Score])
           end
         end
       end
@@ -108,9 +108,9 @@ describe ElectronicTargets::Model::Target do
         [-1.41, 1.41] => 10.2,
       }.each_pair do |args, score|
         it "should score #{args.join(", ")} as a #{score}" do
-          shot.stub(:horizontal_error).and_return(args[0])
-          shot.stub(:vertical_error).and_return(args[1])
-          target.score(shot).should == score
+          allow(shot).to receive(:horizontal_error).and_return(args[0])
+          allow(shot).to receive(:vertical_error).and_return(args[1])
+          expect(target.score(shot)).to eq(score)
         end
       end
     end
