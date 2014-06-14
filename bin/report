@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+require File.expand_path('../../lib/electronic_targets', __FILE__)
+
+files = ARGV.select{|x| File.exist? x}
+files.each do |file|
+  ds = ElectronicTargets::DataSource.from_file(file)
+  report = ElectronicTargets::Analysis::Report.new(ds)
+  mlq = file.sub(%r|/Users/conor/Dropbox/Personal/Shooting/Training Diary/|, '')
+
+  decimal_centred_diff = sprintf(
+    "%+.1f",
+    report.centred_decimal_score - report.decimal_score
+  )
+  integer_centred_diff = sprintf(
+    "%+d",
+    report.centred_integer_score - report.integer_score
+  )
+  group_x = sprintf("%+.1fmm", report.mean_horizontal_error)
+  group_y = sprintf("%+.1fmm", report.mean_vertical_error)
+
+  puts mlq
+  puts "  Shots:    #{ds.match_shots.count}"
+  puts "  Distance: #{ds.distance}m"
+  puts ""
+  puts "  Score:"
+  puts "    Decimal: #{report.decimal_score}"
+  puts "    Integer: #{report.integer_score}"
+  puts ""
+  puts "  Group position:"
+  puts "    X: #{group_x}"
+  puts "    Y: #{group_y}"
+  puts "    Centred score:"
+  puts "      Decimal: #{report.centred_decimal_score} (#{decimal_centred_diff})"
+  puts "      Integer: #{report.centred_integer_score}   (#{integer_centred_diff})"
+  puts ""
+  puts "  Group size:"
+  puts "    Diameter: #{report.group_diameter.round(2)}mm"
+  puts "    Width:    #{report.group_width.round(2)}mm"
+  puts "    Height:   #{report.group_height.round(2)}mm"
+  puts ""
+end
