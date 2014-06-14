@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require File.expand_path('../../lib/electronic_targets', __FILE__)
+
+output = []
+files = ARGV.select{|x| File.exist? x}
+files.each do |file|
+  data_source = ElectronicTargets::DataSource.from_file(file)
+  data_source.shots.each do |shot|
+    output << [
+      (files.count > 1 ? File.basename(file) : nil),
+      shot.sighter? ? 'Sight' : 'Match',
+      shot.time("%H:%M:%S"),
+      shot.score,
+      shot.horizontal_error,
+      shot.vertical_error,
+    ].compact
+  end
+end
+
+output.each do |line|
+  puts line.join(',')
+end
